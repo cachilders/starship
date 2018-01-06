@@ -1,0 +1,17 @@
+{
+  "name": "starship",
+  "version": "0.0.1",
+  "description": "A little something for using your Github stars as bookmarks. Sort, search, manage, and discover.",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "Casey A. Childers",
+  "license": "MIT",
+  "dependencies": {
+    "next": "^4.2.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
