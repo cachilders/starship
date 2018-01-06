@@ -12,7 +12,7 @@ export default class extends React.Component {
   }
   async componentDidMount() {
     const sortBy = 'starred'
-    const res = await fetch(`https://api.github.com/users/${this.state.username}/starred`)
+    const res = await fetch(`https://api.github.com/users/${this.state.username}/starred?per_page=100`)
     const json = await res.json()
     const stars = [...json]
     this.setState({ sortBy, stars, raw: stars.slice() })
@@ -34,7 +34,7 @@ export default class extends React.Component {
             return 0
           }
         } else if (e.target.value === 'updatedAt') {
-          return new Date(b.updated_at) - new Date(a.updated_at)
+          return  new Date(b.updated_at) - new Date(a.updated_at)
         } else if (e.target.value === 'language') {
           const aLang = a.language ? a.language.toLowerCase() : 'N/A'
           const bLang = b.language ? b.language.toLowerCase() : 'N/A'
