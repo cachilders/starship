@@ -3,16 +3,29 @@ import React, { Fragment } from 'react'
 import Head from 'next/head'
 
 export default class extends React.Component {
-  static async getInitialProps() {
-    const sortBy = 'updatedAt'
-    const res = await fetch('https://api.github.com/users/cachilders/starred')
+  constructor() {
+    super();
+    this.state = {
+      username: 'cachilders' // Temporary, natch
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
+  async componentDidMount() {
+    const sortBy = 'starred'
+    const res = await fetch(`https://api.github.com/users/${this.state.username}/starred`)
     const json = await res.json()
     const stars = [...json]
-      // Not quite...
-      .sort((a, b) => {
-        if (sortBy === 'alpha') {
-          const aName = a.full_name.toLowerCase()
-          const bName = b.full_name.toLowerCase()
+    this.setState({ sortBy, stars, raw: stars.slice() })
+  }
+
+  // Not wired up or working
+  handleChange(e) {
+    this.setState({
+      sortBy: e.target.value,
+      stars: e.target.value === 'starred' ? this.state.raw : this.state.stars.sort((a, b) => {
+        if (e.target.value === 'alpha') {
+          const aName = a.name.toLowerCase()
+          const bName = b.name.toLowerCase()
           if (aName > bName) {
             return +1
           } else if (aName < bName) {
@@ -20,11 +33,11 @@ export default class extends React.Component {
           } else {
             return 0
           }
-        } else if (sortBy === 'updatedAt') {
-          return b.updated_at - a.updated_at
-        } else if (sortBy === 'language') {
-          const aLang = a.language.toLowerCase()
-          const bLang = b.language.toLowerCase()
+        } else if (e.target.value === 'updatedAt') {
+          return new Date(b.updated_at) - new Date(a.updated_at)
+        } else if (e.target.value === 'language') {
+          const aLang = a.language ? a.language.toLowerCase() : 'N/A'
+          const bLang = b.language ? b.language.toLowerCase() : 'N/A'
           if (aLang > bLang) {
             return +1
           } else if (aLang < bLang) {
@@ -33,16 +46,8 @@ export default class extends React.Component {
             return 0
           }
         }
-      })
-      .map(
-        star => <p><strong><a href={ star.html_url }>{ star.full_name }</a></strong><br />{ star.description }</p>
-      )
-    return { stars, sortBy }
-  }
-
-  // Not wired up or working
-  handleChange(e) {
-    this.setState({ sortBy: e.target.value });
+      }),
+    })
   }
 
   render() {
@@ -55,15 +60,19 @@ export default class extends React.Component {
         <div>
           <p>
             Sort by
-            <select name="sortBy" onChange={ this.handleChange } value={this.props.sortBy}>
-              <option value="updatedAt">Last Updated</option>
-              <option value="language">Language</option>
+            <select name="sortBy" onChange={ this.handleChange } value={ this.state.sortBy }>
               <option value="alpha">Alphabetical</option>
+              <option value="language">Language</option>
+              <option value="starred">Date Starred</option>
+              <option value="updatedAt">Last Updated</option>
             </select>
           </p>
         </div>
         <div>
-          { this.props.stars }
+          { this.state.stars ? this.state.stars
+            .map(
+              star => star.private ? null : <p key={ star.id }><strong><a href={ star.html_url }>{ star.full_name }</a></strong><br />{ star.description }</p>
+          ) : null }
         </div>
         <style global jsx>{`
           p {
