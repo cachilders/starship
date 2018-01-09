@@ -1,6 +1,7 @@
 import 'isomorphic-unfetch'
 import React, { Fragment } from 'react'
 import Head from 'next/head'
+import Star from '../components/star'
 
 export default class extends React.Component {
   constructor() {
@@ -69,6 +70,7 @@ export default class extends React.Component {
         <Head>
           <title>Starship</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+          <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
         </Head>
         <div>
           <p>
@@ -84,7 +86,7 @@ export default class extends React.Component {
         <div>
           { this.state.stars ? this.state.stars
             .map(
-              star => star.private ? null : <p key={ star.id }><strong><a href={ star.html_url }>{ star.full_name }</a></strong><br />{ star.description }</p>
+              star => star.private ? null : <Star key={ star.id } star={ star } />
           ) : null }
         </div>
         <style global jsx>{`
