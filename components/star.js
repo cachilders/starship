@@ -1,10 +1,12 @@
-export default ({ star }) =>
+export default ({ star, sortBy }) =>
   <p>
-    <i class="fa fa-star-o" aria-hidden="true"></i>
+    <i className="fa fa-star-o" aria-hidden="true"></i>
     {' '}
-    <strong><a href={ star.html_url }>{
-      star.full_name
-    }</a></strong><br />{
-      // star.description
-    }
+    <a href={ star.html_url }>
+      { sortBy === 'language' && star.language ? <span>{ `[${star.language}] ` }</span> : null}
+      <strong>{ star.full_name }</strong>
+    </a><br />
+      {
+        star.description
+      }
   </p>

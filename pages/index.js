@@ -1,7 +1,9 @@
 import 'isomorphic-unfetch'
 import React, { Fragment } from 'react'
-import Head from 'next/head'
+import Head from '../components/head'
+import Selector from '../components/selector'
 import Star from '../components/star'
+import Styles from '../components/styles'
 
 export default class extends React.Component {
   constructor() {
@@ -32,7 +34,6 @@ export default class extends React.Component {
     this.setStars()
   }
 
-  // Not wired up or working
   handleChange(e) {
     this.setState({
       sortBy: e.target.value,
@@ -67,36 +68,15 @@ export default class extends React.Component {
   render() {
     return (
       <Fragment>
-        <Head>
-          <title>Starship</title>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
-        </Head>
-        <div>
-          <p>
-            Sort by
-            <select name="sortBy" onChange={ this.handleChange } value={ this.state.sortBy }>
-              <option value="alpha">Alphabetical</option>
-              <option value="language">Language</option>
-              <option value="starred">Date Starred</option>
-              <option value="updatedAt">Last Updated</option>
-            </select>
-          </p>
-        </div>
-        <div>
-          { this.state.stars ? this.state.stars
+        <Head />
+        <Selector handleChange={ this.handleChange } sortBy={ this.state.sortBy } />
+        { 
+          this.state.stars ? this.state.stars
             .map(
-              star => star.private ? null : <Star key={ star.id } star={ star } />
-          ) : null }
-        </div>
-        <style global jsx>{`
-          p {
-            font-family: helvetica;
-            font-size: 10px;
-            margin: 0px;
-            padding: 2px;
-          }
-        `}</style>
+              star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ this.state.sortBy } />
+            ) : null
+        }
+        <Styles />
       </Fragment>
     )
   }
