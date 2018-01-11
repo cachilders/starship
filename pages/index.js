@@ -15,17 +15,9 @@ export default class extends React.Component {
   }
 
   async setStars() {
-    async function fetchStars(page = 1, res = []) {
-      let url = `https://api.github.com/users/${this.state.username}/starred?page=${page}&per_page=100`
-      const pageRaw = await fetch(url)
-      const pageRes = await pageRaw.json()
-      if (pageRes.length === 100) {
-        return fetchStars.call(this, page + 1, res.concat(pageRes))
-      }
-      return res.concat(pageRes)
-    }
-    const res = await fetchStars.call(this)
-    const stars = [...res]
+    const res = await fetch(`http://localhost:8080/stars?username=${this.state.username}`) // Temporary
+    const json = await res.json()
+    const stars = [...json]
     const sortBy = 'starred'
     this.setState({ sortBy, stars, raw: stars.slice() })
   }
