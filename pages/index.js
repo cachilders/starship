@@ -27,10 +27,11 @@ export default class extends React.Component {
   }
 
   handleChange(e) {
+    const sortBy = e.target.value
     this.setState({
-      sortBy: e.target.value,
-      stars: e.target.value === 'starred' ? this.state.raw : this.state.stars.sort((a, b) => {
-        if (e.target.value === 'alpha') {
+      sortBy: sortBy,
+      stars: sortBy === 'starred' ? this.state.raw : this.state.stars.sort((a, b) => {
+        if (sortBy === 'alpha') {
           const aName = a.name.toLowerCase()
           const bName = b.name.toLowerCase()
           if (aName > bName) {
@@ -40,9 +41,17 @@ export default class extends React.Component {
           } else {
             return 0
           }
-        } else if (e.target.value === 'updatedAt') {
-          return  new Date(b.updated_at) - new Date(a.updated_at)
-        } else if (e.target.value === 'language') {
+        } else if (sortBy === 'updatedAt') {
+          const aDate = new Date(a.updated_at)
+          const bDate = new Date(b.updated_at)
+          if (aDate < bDate) {
+            return +1
+          } else if (aDate > bDate) {
+            return -1
+          } else {
+            return 0
+          }
+        } else if (sortBy === 'language') {
           const aLang = a.language ? a.language.toLowerCase() : 'N/A'
           const bLang = b.language ? b.language.toLowerCase() : 'N/A'
           if (aLang > bLang) {

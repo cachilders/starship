@@ -6,7 +6,7 @@ export default ({ star, sortBy }) =>
       { sortBy === 'language' && star.language ? <span>{ `[${star.language}] ` }</span> : null}
       <strong>{ star.full_name }</strong>
     </a><br />
-      {
-        star.description
-      }
+    {
+      star.description
+    }
   </p>
