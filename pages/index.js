@@ -44,13 +44,7 @@ export default class extends React.Component {
         } else if (sortBy === 'updatedAt') {
           const aDate = new Date(a.updated_at)
           const bDate = new Date(b.updated_at)
-          if (aDate < bDate) {
-            return +1
-          } else if (aDate > bDate) {
-            return -1
-          } else {
-            return 0
-          }
+          return bDate - aDate
         } else if (sortBy === 'language') {
           const aLang = a.language ? a.language.toLowerCase() : 'N/A'
           const bLang = b.language ? b.language.toLowerCase() : 'N/A'
