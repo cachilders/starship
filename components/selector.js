@@ -1,12 +1,13 @@
+import { Dropdown, Menu } from 'semantic-ui-react'
+
+const options = [
+  {key: 1, value: 'alpha', text: 'Alphabetical'},
+  {key: 2, value: 'starred', text: 'Date Starred'},
+  {key: 3, value: 'language', text: 'Language'},
+  {key: 4, value: 'updatedAt', text: 'Last Updated'},
+]
+
 export default ({ handleChange, sortBy }) =>
-  <div>
-    <p>
-      Sort by
-      <select name="sortBy" onChange={ handleChange } value={ sortBy }>
-        <option value="alpha">Alphabetical</option>
-        <option value="language">Language</option>
-        <option value="starred">Date Starred</option>
-        <option value="updatedAt">Last Updated</option>
-      </select>
-    </p>
-  </div>
+  <Menu compact>
+    <Dropdown options={options} simple item onChange={ handleChange } value={ sortBy }/>
+  </Menu>

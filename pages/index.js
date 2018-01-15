@@ -2,6 +2,7 @@ import 'isomorphic-unfetch'
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
+import { Container, Divider, Loader } from 'semantic-ui-react'
 import { initStore, getStars, sortStars } from '../store'
 import Head from '../components/head'
 import Selector from '../components/selector'
@@ -10,7 +11,7 @@ import Styles from '../components/styles'
 
 class Main extends React.Component {
   static getInitialProps ({ store, isServer }) {
-    return { loading: true, isServer }
+    return { isServer }
   }
 
   componentDidMount() {
@@ -22,14 +23,20 @@ class Main extends React.Component {
     return (
       <Fragment>
         <Head />
-        <Selector handleChange={ e => sortStars(e.target.value) } sortBy={ sortBy } />
-        { 
-          stars ? stars
-            .map(
-              star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } />
-            ) : null
-        }
-        <Styles />
+        <Container>
+          <Divider hidden />
+          <Selector handleChange={ (e, data) => sortStars(data.value) } sortBy={ sortBy } />
+          <Divider hidden />
+        </Container>
+        <Container text>
+          { 
+            stars ? stars
+              .map(
+                star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } />
+              ) : <Loader active inline />
+          }
+        </Container>
+        {/* <Styles /> */}
       </Fragment>
     )
   }
