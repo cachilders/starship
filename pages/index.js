@@ -10,12 +10,15 @@ import Styles from '../components/styles'
 
 class Main extends React.Component {
   static getInitialProps ({ store, isServer }) {
-    store.dispatch(getStars())
+    return { loading: true, isServer }
+  }
+
+  componentDidMount() {
+    this.props.getStars()
   }
 
   render() {
     const { sortBy, stars, sortStars } = this.props
-    console.log(sortBy, stars)
     return (
       <Fragment>
         <Head />

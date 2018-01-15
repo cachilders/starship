@@ -9,20 +9,6 @@ const initialState = {
   raw: [],
 }
 
-// const thunk = store => {  
-//   const dispatch = store.dispatch
-//   const getState = store.getState
-
-//   return next => action => {
-//     if (typeof action === 'function') {
-//       return action(dispatch, getState)
-//     }
-
-//     console.log(action)
-//     return next(action)
-//   }
-// }
-
 export const actionTypes = {
   SET_SORT: 'SET_SORT',
   SET_STARS: 'SET_STARS',
@@ -30,9 +16,9 @@ export const actionTypes = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case action.type.SET_SORT:
+    case actionTypes.SET_SORT:
       return Object.assign({}, state, { sortBy: action.sortBy, stars: action.stars })
-    case action.type.SET_STARS:
+    case actionTypes.SET_STARS:
       return Object.assign({}, state, { stars: action.stars, raw: action.stars.slice() })
     default:
       return state
@@ -84,6 +70,6 @@ export const sortStars = (sortBy) => {
   }
 }
 
-export const initStore = (initialState) => {
+export const initStore = () => {
   return createStore(reducer, initialState, composeWithDevTools(applyMiddleware(thunkMiddleware)))
 }
