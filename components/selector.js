@@ -7,7 +7,15 @@ const options = [
   {key: 4, value: 'updatedAt', text: 'Last Updated'},
 ]
 
-export default ({ handleChange, sortBy }) =>
+export default ({ handleChange, hasStars, sortBy }) =>
   <Menu compact>
-    <Dropdown options={options} simple item onChange={ handleChange } value={ sortBy }/>
+    <Dropdown
+      options={options}
+      onChange={ handleChange }
+      value={ sortBy }
+      disabled={ !hasStars }
+      closeOnChange
+      simple
+      item
+    />
   </Menu>

@@ -20,20 +20,23 @@ class Main extends React.Component {
 
   render() {
     const { sortBy, stars, sortStars } = this.props
+    const hasStars = stars.length > 0
     return (
       <Fragment>
         <Head />
         <Container text>
           <Divider hidden />
-          <Selector handleChange={ (e, data) => sortStars(data.value) } sortBy={ sortBy } />
+          <Selector
+            handleChange={ (e, data) => sortStars(data.value) }
+            sortBy={ sortBy }
+            hasStars={ hasStars }
+          />
           <Divider hidden />
-        </Container>
-        <Container text>
           { 
-            stars ? stars
+            hasStars ? stars
               .map(
                 star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } />
-              ) : <Loader active inline />
+              ) : <Loader size="big" active inline />
           }
         </Container>
         {/* <Styles /> */}
