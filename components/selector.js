@@ -1,4 +1,5 @@
-import { Dropdown, Menu } from 'semantic-ui-react'
+import { Dropdown } from 'semantic-ui-react'
+import { Fragment } from 'react'
 
 const options = [
   {key: 1, value: 'alpha', text: 'Alphabetical'},
@@ -8,14 +9,14 @@ const options = [
 ]
 
 export default ({ handleChange, hasStars, sortBy }) =>
-  <Menu compact>
+  <Fragment>
+    Sort repos by {' '}
     <Dropdown
       options={options}
       onChange={ handleChange }
       value={ sortBy }
       disabled={ !hasStars }
       closeOnChange
-      simple
-      item
+      inline
     />
-  </Menu>
+  </Fragment>

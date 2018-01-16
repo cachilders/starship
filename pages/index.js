@@ -2,7 +2,7 @@ import 'isomorphic-unfetch'
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
-import { Container, Divider, Loader } from 'semantic-ui-react'
+import { Container, Divider, List, Loader } from 'semantic-ui-react'
 import { initStore, getStars, sortStars } from '../store'
 import Head from '../components/head'
 import Selector from '../components/selector'
@@ -32,12 +32,14 @@ class Main extends React.Component {
             hasStars={ hasStars }
           />
           <Divider hidden />
-          { 
-            hasStars ? stars
-              .map(
-                star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } />
-              ) : <Loader size="big" active inline />
-          }
+          <List divided relaxed>
+            { 
+              hasStars ? stars
+                .map(
+                  star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } />
+                ) : <Loader size="big" active inline />
+            }
+          </List>
         </Container>
         {/* <Styles /> */}
       </Fragment>
