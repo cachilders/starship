@@ -27,7 +27,7 @@ export const reducer = (state = initialState, action) => {
 
 export const getStars = () => {
   return async (dispatch, getState) => {
-    const res = await fetch(`http://localhost:8080/stars?username=${getState().username}`) // Temporary
+    const res = await fetch(`https://zoneofavoidance.com/stars?username=${getState().username}`)
     const json = await res.json()
     const stars = [...json]
     return dispatch({ type: actionTypes.SET_STARS, stars })

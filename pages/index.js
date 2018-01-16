@@ -23,7 +23,7 @@ class Main extends React.Component {
     return (
       <Fragment>
         <Head />
-        <Container>
+        <Container text>
           <Divider hidden />
           <Selector handleChange={ (e, data) => sortStars(data.value) } sortBy={ sortBy } />
           <Divider hidden />
