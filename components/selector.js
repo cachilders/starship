@@ -8,7 +8,7 @@ const options = [
   {key: 4, value: 'updatedAt', text: 'Last Updated'},
 ]
 
-export default ({ handleChange, hasStars, sortBy }) =>
+export default ({ handleChange, sortBy, hasStars }) =>
   <Fragment>
     Sort repos by {' '}
     <Dropdown
