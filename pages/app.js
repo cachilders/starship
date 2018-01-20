@@ -1,25 +1,32 @@
-import Router from 'next/router'
+import 'isomorphic-unfetch'
 import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
-import { Button, Container, Divider, Icon } from 'semantic-ui-react'
+import { Divider, Container, Loader } from 'semantic-ui-react'
 import { initStore, getStars, sortStars } from '../store'
 import Head from '../components/head'
+import StarsList from '../components/stars-list.js'
 
-class Login extends React.Component {
+class Main extends React.Component {
   static getInitialProps ({ store, isServer }) {
     return { isServer }
   }
 
+  componentDidMount() {
+    this.props.getStars()
+  }
+
   render() {
+    const hasStars = this.props.stars.length > 0
     return (
       <Fragment>
         <Head />
-        <Container textAlign="center" fluid>
+        <Container text>
           <Divider hidden />
-          <Button.Group positive labeled icon>
-            <Button icon="github" content="Login with Github" onClick={ () => Router.push('/app') } />
-          </Button.Group>
+          {
+            hasStars ? <StarsList { ...Object.assign({ hasStars }, this.props) } />
+            : <Loader size="big" active />
+          }
         </Container>
       </Fragment>
     )
@@ -40,4 +47,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Login)
+export default withRedux(initStore, mapStateToProps, mapDispatchToProps)(Main)

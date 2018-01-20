@@ -10,9 +10,9 @@ const options = [
 
 export default ({ handleChange, sortBy, hasStars }) =>
   <Fragment>
-    Sort repos by {' '}
+    Sort repos by { ' ' }
     <Dropdown
-      options={options}
+      options={ options }
       onChange={ handleChange }
       value={ sortBy }
       disabled={ !hasStars }
