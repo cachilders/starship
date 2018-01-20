@@ -21,7 +21,7 @@ class Main extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.username) this.props.getStars()
+    if (this.props.username && this.props.stars.length === 0) this.props.getStars()
   }
 
   render() {
