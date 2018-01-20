@@ -3,15 +3,17 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { default as thunkMiddleware } from 'redux-thunk'
 
 const initialState = {
-  username: 'cachilders', // Temporary, natch
+  access: void 0,
+  raw: [],
   sortBy: 'starred',
   stars: [],
-  raw: [],
+  username: void 0,
 }
 
 export const actionTypes = {
   SET_SORT: 'SET_SORT',
   SET_STARS: 'SET_STARS',
+  SET_USER: 'SET_USER',
 }
 
 export const reducer = (state = initialState, action) => {
@@ -20,14 +22,21 @@ export const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { sortBy: action.sortBy, stars: action.stars })
     case actionTypes.SET_STARS:
       return Object.assign({}, state, { stars: action.stars, raw: action.stars.slice() })
+    case actionTypes.SET_USER:
+      return Object.assign({}, state, { username: action.username, access: action.access })
     default:
       return state
   }
 }
 
+export const setUser = (username, access) => {
+  return (dispatch) => dispatch({type: actionTypes.SET_USER, username, access})
+}
+
 export const getStars = () => {
   return async (dispatch, getState) => {
-    const res = await fetch(`https://zoneofavoidance.com/stars?username=${getState().username}`)
+    const { username, access } = await getState()
+    const res = await fetch(`https://zoneofavoidance.com/stars?username=${username}&access=${access}`)
     const json = await res.json()
     const stars = [...json]
     return dispatch({ type: actionTypes.SET_STARS, stars })
