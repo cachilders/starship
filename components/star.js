@@ -1,11 +1,11 @@
 import { List } from 'semantic-ui-react'
 import { getUnicode } from 'emoji-dictionary';
 
-export default ({ star, sortBy }) =>
+export default ({ star, sortBy, unstar }) =>
   <List.Item>
-    <List.Icon name='empty star' size='large' verticalAlign='middle' />
+    <List.Icon name="star" size="large" verticalAlign="middle" onClick={ () => unstar(star) } />
     <List.Content>
-      <List.Header as='a' href={ star.html_url }>
+      <List.Header as="a" href={ star.html_url }>
         { sortBy === 'language' && star.language ? <span>{ `[${star.language}] ` }</span> : null}
         { star.full_name }
       </List.Header>

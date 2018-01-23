@@ -8,22 +8,29 @@ const initialState = {
   sortBy: 'starred',
   stars: [],
   username: void 0,
+  warning: void 0,
 }
 
 export const actionTypes = {
+  CLEAR_WARNING: 'CLEAR_WARNING',
   SET_SORT: 'SET_SORT',
   SET_STARS: 'SET_STARS',
   SET_USER: 'SET_USER',
+  SET_WARNING: 'SET_WARNING',
 }
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.CLEAR_WARNING:
+      return Object.assign({}, state, { warning: action.warning })
     case actionTypes.SET_SORT:
       return Object.assign({}, state, { sortBy: action.sortBy, stars: action.stars })
     case actionTypes.SET_STARS:
       return Object.assign({}, state, { stars: action.stars, raw: action.stars.slice() })
     case actionTypes.SET_USER:
       return Object.assign({}, state, { username: action.username, access: action.access })
+    case actionTypes.SET_WARNING:
+      return Object.assign({}, state, { warning: action.warning })
     default:
       return state
   }
@@ -77,6 +84,18 @@ export const sortStars = (sortBy) => {
       }),
     })
   }
+}
+
+export const unstar = (star) => {
+  return (dispatch, getState) => {
+    const { name, owner } = star
+    const warning = `Are you sure you want to unstar ${name} by ${owner.login}? There's no undo.`
+    return dispatch({ type: actionTypes.SET_WARNING, warning })
+  }
+}
+
+export const clearWarning = () => {
+  return (dispatch) => dispatch({ type: actionTypes.CLEAR_WARNING, warning: void 0 })
 }
 
 export const initStore = () => {

@@ -4,7 +4,7 @@ import Downshift from 'downshift'
 import Selector from './selector'
 import Star from './star'
 
-export default ({ sortBy, stars, sortStars, hasStars }) =>
+export default ({ sortBy, stars, sortStars, hasStars, unstar }) =>
     <Downshift
       render={({
         getInputProps,
@@ -28,7 +28,7 @@ export default ({ sortBy, stars, sortStars, hasStars }) =>
                   star.description && star.description.toLowerCase().includes(inputValue.toLowerCase())
               )
               .map(
-                star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } />
+                star => star.private ? null : <Star key={ star.id } star={ star } sortBy={ sortBy } unstar={ unstar } />
               )
             }
           </List>
