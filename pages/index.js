@@ -8,6 +8,7 @@ import Head from '../components/head'
 import Login from '../components/login'
 import Modal from '../components/modal'
 import StarsList from '../components/stars-list.js'
+import Style from '../components/styles'
 
 class Main extends React.Component {
   static getInitialProps ({ store, isServer }) {
@@ -45,6 +46,7 @@ class Main extends React.Component {
             <Login />
           }
         </Container>
+        <Style />
       </Fragment>
     )
   }
