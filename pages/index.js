@@ -45,6 +45,7 @@ class Main extends React.Component {
             </Fragment> :
             <Login />
           }
+          <Divider hidden />
         </Container>
         <Style />
       </Fragment>

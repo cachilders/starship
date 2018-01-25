@@ -1,4 +1,4 @@
-import { List } from 'semantic-ui-react'
+import { Label, List } from 'semantic-ui-react'
 import { getUnicode } from 'emoji-dictionary';
 
 export default ({ star, sortBy, unstar }) => 
@@ -12,11 +12,11 @@ export default ({ star, sortBy, unstar }) =>
       />
       <List.Content>
         <List.Header as="a" href={ star.html_url }>
-          { sortBy === 'language' && star.language ? <span>{ `[${star.language}] ` }</span> : null}
-          { star.name } by { star.owner && star.owner.login }
+          { star.name } { star.owner && ` by ${star.owner.login}` }
         </List.Header>
         {  star.description &&
           <List.Description>
+            { star.language ? <Label size="tiny" horizontal>{ star.language }</Label> : null }
             { star.description.replace(/:.*:/g, (str) => getUnicode(str.replace(/:/g, ''))) }
           </List.Description>
         }
