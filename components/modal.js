@@ -6,7 +6,7 @@ export default ({ warning, clearWarning, deleteStar }) =>
       <p>{ warning }</p>
     </Modal.Content>
     <Modal.Actions>
-      <Button negative icon="star" labelPosition="right" content="No" onClick={ () => clearWarning() } />
-      <Button positive icon="star empty" labelPosition="right" content="Yes" onClick={ () => deleteStar() }/>
+      <Button positive icon="star" labelPosition="right" content="No" onClick={ () => clearWarning() } />
+      <Button negative icon="star empty" labelPosition="right" content="Yes" onClick={ () => deleteStar() }/>
     </Modal.Actions>
   </Modal>
