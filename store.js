@@ -44,7 +44,7 @@ export const setUser = (username, access) => {
 export const getStars = () => {
   return async (dispatch, getState) => {
     const { username, access } = await getState()
-    const res = await fetch(`htts://zoneofavoidance.com/stars?username=${username}&access=${access}`)
+    const res = await fetch(`https://zoneofavoidance.com/stars?username=${username}&access=${access}`)
     const json = await res.json()
     const stars = [...json]
     return dispatch({ type: actionTypes.SET_STARS, stars })
@@ -56,7 +56,7 @@ export const deleteStar = () => {
     const { access, stagedStar, stars } = await getState()
     const { name, owner } = stagedStar
     let newStars
-    const res = await fetch(`htts://zoneofavoidance.com/unstar?access=${access}&repo=${name}&owner=${owner.login}`)
+    const res = await fetch(`https://zoneofavoidance.com/unstar?access=${access}&repo=${name}&owner=${owner.login}`)
     if (res.status === 204) {
       newStars = stars.filter((star) => star.name !== name && star.owner !== owner)
     }
