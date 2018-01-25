@@ -9,7 +9,7 @@ export default () =>
         Your Github stars, gathered up and made useful.
       </Header.Subheader>
     </Header>
-    <a href="http://localhost:8080/authenticate">
+    <a href="https://zoneofavoidance.com/authenticate">
       <Button.Group positive labeled icon>
         <Button icon="github" content="Login with Github" />
       </Button.Group>
