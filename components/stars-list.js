@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import { Divider, Input, List } from 'semantic-ui-react'
 import Downshift from 'downshift'
 import Selector from './selector'
@@ -11,7 +10,7 @@ export default ({ sortBy, stars, sortStars, hasStars, unstar }) =>
         getRootProps,
         inputValue,
       }) => (
-        <Fragment { ...getRootProps({refKey: 'innerRef'}) } >
+        <div>
           <Selector
             handleChange={ (e, data) => sortStars(data.value) }
             sortBy={ sortBy }
@@ -32,6 +31,6 @@ export default ({ sortBy, stars, sortStars, hasStars, unstar }) =>
               )
             }
           </List>
-        </Fragment>
+        </div>
       )}
     />

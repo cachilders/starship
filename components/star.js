@@ -5,7 +5,7 @@ export default ({ star, sortBy, unstar }) =>
     <List.Item>
       <List.Icon
         name="star"
-        hover verticalAlign="middle"
+        verticalAlign="middle"
         onClick={ () => unstar(star) }
         onMouseOver={ (e) => e.target.closest('i').className = 'empty star icon middle aligned' }
         onMouseOut={ (e) => e.target.closest('i').className = 'star icon middle aligned' }

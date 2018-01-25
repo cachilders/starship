@@ -89,7 +89,7 @@ export const sortStars = (sortBy) => {
 export const unstar = (star) => {
   return (dispatch, getState) => {
     const { name, owner } = star
-    const warning = `Are you sure you want to unstar ${name} by ${owner.login}? There's no undo.`
+    const warning = <span>Are you sure you want to <strong>unstar</strong> {name} by {owner.login}?</span>
     return dispatch({ type: actionTypes.SET_WARNING, warning })
   }
 }
