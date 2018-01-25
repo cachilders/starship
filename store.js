@@ -6,6 +6,7 @@ const initialState = {
   access: void 0,
   raw: [],
   sortBy: 'starred',
+  stagedStar: void 0,
   stars: [],
   username: void 0,
   warning: void 0,
@@ -22,7 +23,7 @@ export const actionTypes = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CLEAR_WARNING:
-      return Object.assign({}, state, { warning: action.warning })
+      return Object.assign({}, state, { warning: action.warning, stagedStar: action.stagedStar, stars: action.stars })
     case actionTypes.SET_SORT:
       return Object.assign({}, state, { sortBy: action.sortBy, stars: action.stars })
     case actionTypes.SET_STARS:
@@ -30,7 +31,7 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.SET_USER:
       return Object.assign({}, state, { username: action.username, access: action.access })
     case actionTypes.SET_WARNING:
-      return Object.assign({}, state, { warning: action.warning })
+      return Object.assign({}, state, { warning: action.warning, stagedStar: action.stagedStar })
     default:
       return state
   }
@@ -43,10 +44,23 @@ export const setUser = (username, access) => {
 export const getStars = () => {
   return async (dispatch, getState) => {
     const { username, access } = await getState()
-    const res = await fetch(`https://zoneofavoidance.com/stars?username=${username}&access=${access}`)
+    const res = await fetch(`htts://zoneofavoidance.com/stars?username=${username}&access=${access}`)
     const json = await res.json()
     const stars = [...json]
     return dispatch({ type: actionTypes.SET_STARS, stars })
+  }
+}
+
+export const deleteStar = () => {
+  return async (dispatch, getState) => {
+    const { access, stagedStar, stars } = await getState()
+    const { name, owner } = stagedStar
+    let newStars
+    const res = await fetch(`htts://zoneofavoidance.com/unstar?access=${access}&repo=${name}&owner=${owner.login}`)
+    if (res.status === 204) {
+      newStars = stars.filter((star) => star.name !== name && star.owner !== owner)
+    }
+    return dispatch({ type: actionTypes.CLEAR_WARNING, warning: void 0, stagedStar: void 0, stars: newStars || stars })
   }
 }
 
@@ -90,12 +104,15 @@ export const unstar = (star) => {
   return (dispatch, getState) => {
     const { name, owner } = star
     const warning = <span>Are you sure you want to <strong>unstar</strong> {name} by {owner.login}?</span>
-    return dispatch({ type: actionTypes.SET_WARNING, warning })
+    return dispatch({ type: actionTypes.SET_WARNING, warning, stagedStar: star })
   }
 }
 
 export const clearWarning = () => {
-  return (dispatch) => dispatch({ type: actionTypes.CLEAR_WARNING, warning: void 0 })
+  return async (dispatch, getState) => {
+    const { stars } = await getState()
+    return dispatch({ type: actionTypes.CLEAR_WARNING, warning: void 0, stagedStar: void 0, stars })
+  }
 }
 
 export const initStore = () => {
