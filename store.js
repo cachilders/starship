@@ -10,10 +10,14 @@ const initialState = {
   stars: [],
   username: void 0,
   warning: void 0,
+  exporting: false,
 }
+
+const domain = 'https://zoneofavoidance.com'
 
 export const actionTypes = {
   CLEAR_WARNING: 'CLEAR_WARNING',
+  EXPORT_STARS: 'EXPORT_STARS',
   SET_SORT: 'SET_SORT',
   SET_STARS: 'SET_STARS',
   SET_USER: 'SET_USER',
@@ -24,6 +28,8 @@ export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CLEAR_WARNING:
       return Object.assign({}, state, { warning: action.warning, stagedStar: action.stagedStar, stars: action.stars })
+    case actionTypes.EXPORT_STARS:
+      return Object.assign({}, state, { exporting: action.exporting })
     case actionTypes.SET_SORT:
       return Object.assign({}, state, { sortBy: action.sortBy, stars: action.stars })
     case actionTypes.SET_STARS:
@@ -44,7 +50,7 @@ export const setUser = (username, access) => {
 export const getStars = () => {
   return async (dispatch, getState) => {
     const { username, access } = await getState()
-    const res = await fetch(`https://zoneofavoidance.com/stars?username=${username}&access=${access}`)
+    const res = await fetch(`${domain}/stars?username=${username}&access=${access}`)
     const json = await res.json()
     const stars = [...json]
     return dispatch({ type: actionTypes.SET_STARS, stars })
@@ -56,11 +62,27 @@ export const deleteStar = () => {
     const { access, stagedStar, stars } = await getState()
     const { name, owner } = stagedStar
     let newStars
-    const res = await fetch(`https://zoneofavoidance.com/unstar?access=${access}&repo=${name}&owner=${owner.login}`)
+    const res = await fetch(`${domain}/unstar?access=${access}&repo=${name}&owner=${owner.login}`)
     if (res.status === 204) {
       newStars = stars.filter((star) => star.name !== name && star.owner !== owner)
     }
     return dispatch({ type: actionTypes.CLEAR_WARNING, warning: void 0, stagedStar: void 0, stars: newStars || stars })
+  }
+}
+
+export const exportStars = () => {
+  return async (dispatch, getState) => {
+    dispatch({ type: actionTypes.EXPORT_STARS, exporting: true })
+    const { access, username } = await getState()
+    const res = await fetch(`${domain}/export?username=${username}&access=${access}`, {method: 'POST'})
+    if ([200, 201].indexOf(res.status) >= 0) {
+      // TODO: Play with button state here
+      console.log('export succeeded')
+    } else {
+      console.log('export failed')
+    }
+    // Reconsider exporting state in favor of something more dramatic as mentioned above
+    return dispatch({ type: actionTypes.EXPORT_STARS, exporting: false })
   }
 }
 

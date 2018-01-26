@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 import { bindActionCreators } from 'redux'
 import withRedux from 'next-redux-wrapper'
 import { Container, Divider, Loader } from 'semantic-ui-react'
-import { clearWarning, deleteStar, initStore, getStars, setUser, sortStars, unstar } from '../store'
+import { clearWarning, deleteStar, initStore, getStars, setUser, sortStars, unstar, exportStars } from '../store'
 import Head from '../components/head'
 import Login from '../components/login'
 import Modal from '../components/modal'
@@ -56,6 +56,7 @@ class Main extends React.Component {
 const mapStateToProps = (state) => {
   return {
     access: state.access,
+    exporting: state.exporting,
     sortBy: state.sortBy,
     stars: state.stars,
     username: state.username,
@@ -67,6 +68,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     clearWarning: bindActionCreators(clearWarning, dispatch),
     deleteStar: bindActionCreators(deleteStar, dispatch),
+    exportStars: bindActionCreators(exportStars, dispatch),
     getStars: bindActionCreators(getStars, dispatch),
     setUser: bindActionCreators(setUser, dispatch),
     sortStars: bindActionCreators(sortStars, dispatch),

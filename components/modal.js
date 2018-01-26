@@ -6,6 +6,7 @@ export default ({ warning, clearWarning, deleteStar }) =>
       <p>{ warning }</p>
     </Modal.Content>
     <Modal.Actions>
+      {/* TODO: Make these action buttons generic, state passed from caller */}
       <Button positive icon="star" labelPosition="right" content="No" onClick={ () => clearWarning() } />
       <Button negative icon="star empty" labelPosition="right" content="Yes" onClick={ () => deleteStar() }/>
     </Modal.Actions>

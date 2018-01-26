@@ -1,9 +1,10 @@
 import { Divider, Input, List } from 'semantic-ui-react'
 import Downshift from 'downshift'
+import ExportButton from './exportButton'
 import Selector from './selector'
 import Star from './star'
 
-export default ({ sortBy, stars, sortStars, hasStars, unstar }) =>
+export default ({ exporting, exportStars, sortBy, stars, sortStars, hasStars, unstar }) =>
     <Downshift
       render={({
         getInputProps,
@@ -15,8 +16,11 @@ export default ({ sortBy, stars, sortStars, hasStars, unstar }) =>
             handleChange={ (e, data) => sortStars(data.value) }
             sortBy={ sortBy }
             hasStars={ hasStars }
-          /> {' '}
+          />
+          {' '}
           <Input transparent { ...getInputProps({placeholder: 'Search'}) } />
+          {' '}
+          <ExportButton exporting={ exporting } exportStars={ exportStars } />
           <Divider hidden />
           <List divided relaxed>
             { 
