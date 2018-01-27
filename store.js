@@ -79,10 +79,9 @@ export const exportStars = () => {
     if ([200, 201].indexOf(res.status) >= 0) {
       // TODO: Play with button state here
       const gist = await res.json()
-      copy(gist.url, {
+      copy(gist.html_url, {
         message: 'Your star data is at this address. Copy with #{key}.',
       })
-      console.log(gist.url)
     } else {
       console.log('export failed')
     }
