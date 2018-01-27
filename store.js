@@ -14,7 +14,8 @@ const initialState = {
   exporting: false,
 }
 
-export const domain = 'https://zoneofavoidance.com'
+// For local dev $ export DEV_API_URL=http://localhost:8080
+export const domain = process.env.DEV_API_URL || 'https://zoneofavoidance.com'
 
 export const actionTypes = {
   CLEAR_WARNING: 'CLEAR_WARNING',
