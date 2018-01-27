@@ -1,3 +1,4 @@
+import copy from 'copy-to-clipboard'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { default as thunkMiddleware } from 'redux-thunk'
@@ -13,7 +14,7 @@ const initialState = {
   exporting: false,
 }
 
-const domain = 'https://zoneofavoidance.com'
+export const domain = 'https://zoneofavoidance.com'
 
 export const actionTypes = {
   CLEAR_WARNING: 'CLEAR_WARNING',
@@ -77,7 +78,11 @@ export const exportStars = () => {
     const res = await fetch(`${domain}/export?username=${username}&access=${access}`, {method: 'POST'})
     if ([200, 201].indexOf(res.status) >= 0) {
       // TODO: Play with button state here
-      console.log('export succeeded')
+      const gist = await res.json()
+      copy(gist.url, {
+        message: 'Your star data is at this address. Copy with #{key}.',
+      })
+      console.log(gist.url)
     } else {
       console.log('export failed')
     }
